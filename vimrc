@@ -438,21 +438,21 @@ function! RunTests(filename)
     :silent !echo;echo;echo;echo;echo;echo;echo;echo;echo;echo
     :silent !echo;echo;echo;echo;echo;echo;echo;echo;echo;echo
     if match(a:filename, '\.feature$') != -1
-        let cmd = ":!script/features " . a:filename
+        let cmd = "script/features " . a:filename
     else
         if filereadable("script/test")
-            let cmd = ":!script/test " . a:filename
+            let cmd = "script/test " . a:filename
         elseif filereadable("Gemfile")
-            let cmd = ":!bundle exec rspec --color " . a:filename
+            let cmd = "bundle exec rspec --color " . a:filename
         else
-            let cmd = ":!rspec --color " . a:filename
+            let cmd = "rspec --color " . a:filename
         end
     end
 
-    if exists('Send_to_Tmux')
+    if exists('*Send_to_Tmux')
       return s:send_test(cmd)
     else
-      exec cmd
+      exec ":!" . cmd
     endif
 endfunction
 
