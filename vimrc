@@ -272,7 +272,18 @@ imap <c-l> <space>=><space>
 imap <c-c> <esc>
 
 " Clear the search buffer when hitting return
-:nnoremap <CR> :nohlsearch<cr>
+
+":nmap <cr> :if !&readonly \|\| &modifiable \| :nohlsearch \| endif<cr>
+function NoSearchHighlight()
+    " execute \":echo &buflisted"
+    " execute \":echo &filetype"
+    if &filetype=="qf"
+      execute "normal! \<cr>"
+    else
+      let @/ = ""
+    endif
+endfunction
+noremap <cr> :call NoSearchHighlight()<CR>
 nnoremap <leader><leader> <c-^>
 
 " Switch between the last two files
