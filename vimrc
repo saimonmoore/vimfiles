@@ -24,29 +24,77 @@ Bundle 'gmarik/vundle'
 " My Bundles here:
 
 " original repos on github
-Bundle 'wincent/Command-T'                   " Fast fuzzy lookup for files in project
-Bundle 'tpope/vim-fugitive'                  " Git wrapper: Mostly just use for :Gblame
-Bundle 'tpope/vim-rails.git'                 " Rails tools: Mostly just use for :A,:R
-Bundle 'tpope/vim-endwise'                   " Intelligent adding of end
-Bundle 'tpope/vim-commentary'                " Comment/Uncomment blocks of code via \\\
-Bundle 'mileszs/ack.vim'                     " Wrapper around ack tool:  :Ack -a 'bla' where/to/look
-Bundle 'tpope/vim-surround'                  " Easily change wrapping characters
-Bundle 'msanders/snipmate.vim'               " Snippets of code. Occasional use
-Bundle 'tsaleh/vim-align'                    " Align blocks of code to a particular char. Occasional use
-Bundle 'scrooloose/syntastic'                " Syntax highlighting
-Bundle 'Townk/vim-autoclose.git'             " Autocloses brackets/parenthese
-Bundle 'duff/vim-scratch.git'                " Scratch pad
-Bundle 'michaeljsmith/vim-indent-object'     " defines a new text object representing lines of code at the same indent level.
-Bundle 'kana/vim-textobj-user.git'           " Support for user defined text object. Dependency of vim-textobj-rubyblock
-Bundle 'nelstrom/vim-textobj-rubyblock.git'  " Select ruby blocks: vir/var
-Bundle 'tsaleh/vim-matchit'                  " % Matches corresponding braces/brackets etc...
-Bundle 'tpope/vim-repeat'                    " Makes period (repeat) work with vim-surround
-Bundle 'fesplugas/vim-session'               " Restore previous session
-Bundle 'pangloss/vim-javascript'             " Improved javascript identation
-Bundle 'manalang/jshint.vim.git'             " Kickass javascript auto correction
-Bundle 'digitaltoad/vim-jade.git'            " Jade syntax highlighting and identation
-Bundle 'tpope/vim-markdown'                  " Syntax highlighting for markdown
-Bundle 'tpope/vim-haml'                      " HAML syntax highlighting and identation
+" Fast fuzzy lookup for files in project
+Bundle 'wincent/Command-T'
+
+" Git wrapper: Mostly just use for :Gblame
+Bundle 'tpope/vim-fugitive'
+
+" Rails tools: Mostly just use for :A,:R
+Bundle 'tpope/vim-rails.git'
+
+" Intelligent adding of end
+Bundle 'tpope/vim-endwise'
+
+" Comment/Uncomment blocks of code via \\\
+Bundle 'tpope/vim-commentary'
+
+" Wrapper around ack tool:  :Ack -a 'bla' where/to/look
+Bundle 'mileszs/ack.vim'
+
+" Easily change wrapping characters
+Bundle 'tpope/vim-surround'
+
+" Snippets of code. Occasional use
+Bundle 'msanders/snipmate.vim'
+
+" Align blocks of code to a particular char. Occasional use
+Bundle 'tsaleh/vim-align'
+
+" Syntax highlighting
+Bundle 'scrooloose/syntastic'
+
+" Autocloses brackets/parenthese
+Bundle 'Townk/vim-autoclose.git'
+
+" Scratch pad
+Bundle 'duff/vim-scratch.git'
+
+" defines a new text object representing lines of code at the same indent level.
+Bundle 'michaeljsmith/vim-indent-object'
+
+" Support for user defined text object. Dependency of vim-textobj-rubyblock
+Bundle 'kana/vim-textobj-user.git'
+
+" Select ruby blocks: vir/var
+Bundle 'nelstrom/vim-textobj-rubyblock.git'
+
+" % Matches corresponding braces/brackets etc
+Bundle 'tsaleh/vim-matchit'
+
+" Makes period (repeat) work with vim-surround
+Bundle 'tpope/vim-repeat'
+
+" Restore previous session
+Bundle 'fesplugas/vim-session'
+
+" Improved javascript identation
+Bundle 'pangloss/vim-javascript'
+
+" Kickass javascript auto correction
+Bundle 'manalang/jshint.vim.git'
+
+" Jade syntax highlighting and identation
+Bundle 'digitaltoad/vim-jade.git'
+
+" Syntax highlighting for markdown
+Bundle 'tpope/vim-markdown'
+
+" HAML syntax highlighting and identation
+Bundle 'tpope/vim-haml'
+
+" Make vim play nicely with iterm and tmux
+Bundle "sjl/vitality.vim"
 
 " vim-scripts repos
 Bundle 'nginx.vim'
@@ -466,18 +514,18 @@ command! OpenChangedFiles :call OpenChangedFiles()
 " sum column of numbers in yanked register, save
 " result to " register
 function! Sum()
-  python << EOF
-  import vim
+python << EOF
+import vim
 
-  # find total from input
-  items = vim.eval("@0").split("\n")
-  floatsList = map(float, filter(lambda n: n != '', items))
-  total = sum(floatsList)
+# find total from input
+items = vim.eval("@0").split("\n")
+floatsList = map(float, filter(lambda n: n != '', items))
+total = sum(floatsList)
 
-  # set register and echo result
-  vim.command("call setreg('\"', '%s\n')" % total)
-  vim.command("echo '%s saved to clipboard'" % total)
-  EOF
+# set register and echo result
+vim.command("call setreg('\"', '%s\n')" % total)
+vim.command("echo '%s saved to clipboard'" % total)
+EOF
 endfunction
 
 " word swapping functions
