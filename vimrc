@@ -127,7 +127,7 @@ set softtabstop=2
 set list listchars=tab:\ \ ,trail:·
 
 " highlight current line
-set cursorline
+" set cursorline
 set cmdheight=2
 set switchbuf=useopen
 set numberwidth=5
