@@ -1,7 +1,9 @@
-set nocompatible
-filetype off
+" This is Saimon Moore's .vimrc file
+" vim:set ts=2 sts=2 sw=2 expandtab:
 
-
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" VUNDLE PLUGINS
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 if !executable('git')
   echo "[Vim]: Git is not installed and is required."
   exit
@@ -22,106 +24,238 @@ Bundle 'gmarik/vundle'
 " My Bundles here:
 
 " original repos on github
-" Bundle 'mrtazz/molokai.vim'
-Bundle 'altercation/vim-colors-solarized'
-Bundle 'tpope/vim-fugitive'
-Bundle 'tpope/vim-rails.git'
-Bundle 'tpope/vim-endwise'
-Bundle 'tpope/vim-commentary'
-Bundle 'mileszs/ack.vim'
-Bundle 'tpope/vim-surround'
-Bundle 'msanders/snipmate.vim'
-Bundle 'tsaleh/vim-align'
-Bundle 'tpope/vim-unimpaired'
-Bundle 'scrooloose/syntastic'
-Bundle 'tpope/vim-fugitive'
-Bundle 'tpope/vim-rails.git'
-Bundle 'Townk/vim-autoclose.git'
-Bundle 'duff/vim-scratch.git'
-Bundle 'michaeljsmith/vim-indent-object'
-Bundle 'pangloss/vim-javascript'
-Bundle 'manalang/jshint.vim.git'
-Bundle 'taq/vim-rspec'
-Bundle 'digitaltoad/vim-jade.git'
-Bundle 'tpope/vim-haml'
-Bundle 'kana/vim-textobj-user.git'
-Bundle 'nelstrom/vim-textobj-rubyblock.git'
-Bundle 'tsaleh/vim-matchit'
-Bundle 'Lokaltog/vim-powerline'
-" Bundle 'ervandew/supertab'
-Bundle 'tpope/vim-repeat'
-Bundle 'wincent/Command-T'
-Bundle 'tpope/vim-markdown'
-Bundle 'fesplugas/vim-session'
-Bundle 'fesplugas/vim-rename'
+Bundle 'wincent/Command-T'                   " Fast fuzzy lookup for files in project
+Bundle 'tpope/vim-fugitive'                  " Git wrapper: Mostly just use for :Gblame
+Bundle 'tpope/vim-rails.git'                 " Rails tools: Mostly just use for :A,:R
+Bundle 'tpope/vim-endwise'                   " Intelligent adding of end
+Bundle 'tpope/vim-commentary'                " Comment/Uncomment blocks of code via \\\
+Bundle 'mileszs/ack.vim'                     " Wrapper around ack tool:  :Ack -a 'bla' where/to/look
+Bundle 'tpope/vim-surround'                  " Easily change wrapping characters
+Bundle 'msanders/snipmate.vim'               " Snippets of code. Occasional use
+Bundle 'tsaleh/vim-align'                    " Align blocks of code to a particular char. Occasional use
+Bundle 'scrooloose/syntastic'                " Syntax highlighting
+Bundle 'Townk/vim-autoclose.git'             " Autocloses brackets/parenthese
+Bundle 'duff/vim-scratch.git'                " Scratch pad
+Bundle 'michaeljsmith/vim-indent-object'     " defines a new text object representing lines of code at the same indent level.
+Bundle 'kana/vim-textobj-user.git'           " Support for user defined text object. Dependency of vim-textobj-rubyblock
+Bundle 'nelstrom/vim-textobj-rubyblock.git'  " Select ruby blocks: vir/var
+Bundle 'tsaleh/vim-matchit'                  " % Matches corresponding braces/brackets etc...
+Bundle 'tpope/vim-repeat'                    " Makes period (repeat) work with vim-surround
+Bundle 'fesplugas/vim-session'               " Restore previous session
+Bundle 'pangloss/vim-javascript'             " Improved javascript identation
+Bundle 'manalang/jshint.vim.git'             " Kickass javascript auto correction
+Bundle 'digitaltoad/vim-jade.git'            " Jade syntax highlighting and identation
+Bundle 'tpope/vim-markdown'                  " Syntax highlighting for markdown
+Bundle 'tpope/vim-haml'                      " HAML syntax highlighting and identation
 
 " vim-scripts repos
 Bundle 'nginx.vim'
 
-" non github repos
-" Bundle 'git://git.wincent.com/command-t.git'
-
 if exists('$TMUX')
   Bundle 'jgdavey/tslime.vim'
-  " Bundle 'jgdavey/vim-turbux'
 endif
-
 
 if exists("s:bootstrap") && s:bootstrap
   unlet s:bootstrap
   BundleInstall
 endif
 
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" BASIC EDITING CONFIGURATION
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+set nocompatible
+
+" allow unsaved background buffers and remember marks/undo for them
+set hidden
+
+" remember more commands and search history
+set history=10000
+
+" Whitespace stuff
+set expandtab
+set tabstop=2
+set shiftwidth=2
+set softtabstop=2
+set list listchars=tab:\ \ ,trail:·
+
+" highlight current line
+set cursorline
+set cmdheight=2
+set switchbuf=useopen
+set numberwidth=5
+set showtabline=2
+set winwidth=79
+
+set shell=bash
+
+set term=xterm-color
+
+" Prevent Vim from clobbering the scrollback buffer. See
+" http://www.shallowsky.com/linux/noaltscreen.html
+set t_ti= t_te=
+" keep more context when scrolling off the end of a buffer
+set scrolloff=3
+
 set number
 set ruler
-syntax on
 
-set exrc      " enable per-directory .vimrc files
-set secure    " disable unsafe commands in local .vimrc files
+" enable per-directory .vimrc files
+set exrc
+
+" disable unsafe commands in local .vimrc files
+set secure
 
 " Set encoding
 set encoding=utf-8
 
-" Whitespace stuff
-set nowrap
-set tabstop=2
-set shiftwidth=2
-set softtabstop=2
-set expandtab
-set list listchars=tab:\ \ ,trail:·
-
 " Searching
+set showmatch
 set hlsearch
 set incsearch
-set ignorecase
-set smartcase
+" make searches case-sensitive only if they contain upper-case characters
+set ignorecase smartcase
+
+" Status bar
+set laststatus=2
+
+" allow backspacing over everything in insert mode
+set backspace=indent,eol,start
+
+" display incomplete commands
+set showcmd
+
+" Store temporary files in a central spot
+set backup
+set backupdir=~/.backup,~/.tmp,~/tmp,/var/tmp,/tmp
+set directory=~/.backup,~/.tmp,~/tmp,/var/tmp,/tmp
+
+" clipboard osx support for terminal mode vim
+set clipboard=unnamed
+
+" Enable highlighting for syntax
+syntax on
+
+" load the plugin and indent settings for the detected filetype
+filetype plugin indent on
 
 " Tab completion
 set wildmode=list:longest,list:full
 set wildignore+=*.o,*.obj,.git,*.rbc,*.class,.svn,vendor/gems/*
 
-" Status bar
-set laststatus=2
-
-let mapleader = ","
-
-" mappings
-
-" Switch between the last two files
-nnoremap <leader><leader> <c-^>
-
-" Edit or view files in same directory as current file
-cnoremap %% <C-R>=expand('%:h').'/'<cr>
-map <leader>e :edit %%
-map <leader>v :view %%
+" Make tab completion for files/buffers act like bash
+set wildmenu
 
 " Quick file finder. Search file with `:find <file>`.
 set path=$PWD/**
 
-" =============== Syntastic  ==============================
-" Enable syntastic syntax checking
-let g:syntastic_enable_signs=1
-let g:syntastic_quiet_warnings=1
+let mapleader = ","
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" CUSTOM AUTOCMDS
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+augroup vimrcEx
+  " Clear all autocmds in the group
+  autocmd!
+  autocmd FileType text setlocal textwidth=78
+  " Jump to last cursor position unless it's invalid or in an event handler
+  autocmd BufReadPost *
+    \ if line("'\"") > 0 && line("'\"") <= line("$") |
+    \   exe "normal g`\"" |
+    \ endif
+
+  "for ruby, autoindent with two spaces, always expand tabs
+  autocmd FileType ruby,haml,eruby,yaml,html,javascript,sass,cucumber set ai sw=2 sts=2 et
+  autocmd FileType python set sw=4 sts=4 et
+
+  autocmd! BufRead,BufNewFile *.sass setfiletype sass 
+
+  autocmd BufRead,BufNewFile {*.md,*.mkd,*markdown} set ft=markdown
+  autocmd BufRead *.mkd  set ai formatoptions=tcroqn2 comments=n:&gt;
+  autocmd BufRead *.markdown  set ai formatoptions=tcroqn2 comments=n:&gt;
+
+  " Indent p tags
+  autocmd FileType html,eruby if g:html_indent_tags !~ '\\|p\>' | let g:html_indent_tags .= '\|p\|li\|dt\|dd' | endif
+
+  " Don't syntax highlight markdown because it's often wrong
+  autocmd! FileType mkd setlocal syn=off
+
+  " Thorfile, Rakefile, Vagrantfile and Gemfile are Ruby
+  autocmd BufRead,BufNewFile {Gemfile,Rakefile,Vagrantfile,Thorfile,config.ru}    set ft=ruby
+
+  " add json syntax highlighting
+  autocmd BufNewFile,BufRead *.json set ft=javascript
+
+  "adding mapping for rabl files
+  autocmd BufRead,BufNewFile *.rabl setf ruby
+
+  "adding mapping for jade.erb files
+  autocmd BufNewFile,BufReadPost *.jade.erb set filetype=jade
+
+  au BufRead,BufNewFile /usr/local/etc/nginx/sites-available/* set ft=nginx
+
+augroup END
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" COLOR
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Default theme for now
+set background=dark
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" STATUS LINE
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+set statusline=%<%f\ (%{&ft})\ %-4(%m%)%=%-19(%3l,%02c%03V%)
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" MISC KEY MAPS
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+map <leader>y "*y
+
+" Move around splits with <c-hjkl>
+nnoremap <c-j> <c-w>j
+nnoremap <c-k> <c-w>k
+nnoremap <c-h> <c-w>h
+nnoremap <c-l> <c-w>l
+
+" Insert a hash rocket with <c-l>
+imap <c-l> <space>=><space>
+
+" Can't be bothered to understand ESC vs <c-c> in insert mode
+imap <c-c> <esc>
+
+" Clear the search buffer when hitting return
+:nnoremap <CR> :nohlsearch<cr>
+nnoremap <leader><leader> <c-^>
+
+" Switch between the last two files
+nnoremap <leader><leader> <c-^>
+
+" CTags
+map <Leader>rt :!ctags --extra=+f -R --exclude=.git --exclude=log * ~/.rvm/gems/ruby-head/*<CR><CR>
+
+" Format json
+map <leader>jt <Esc>:%!python -m json.tool<CR>
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" OPEN FILES IN DIRECTORY OF CURRENT FILE
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+cnoremap %% <C-R>=expand('%:h').'/'<cr>
+map <leader>e :edit %%"
+map <leader>v :view %%
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" RENAME CURRENT FILE
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+function! RenameFile()
+    let old_name = expand('%')
+    let new_name = input('New file name: ', expand('%'), 'file')
+    if new_name != '' && new_name != old_name
+        exec ':saveas ' . new_name
+        exec ':silent !rm ' . old_name
+        redraw!
+    endif
+endfunction
+map <leader>n :call RenameFile()<cr>
 
 " =============== Ruby & Rails  ==============================
 " Rails routes and Gemfile
@@ -130,6 +264,60 @@ map <leader>gg :topleft 100 :split Gemfile<cr>
 
 map <leader>rs :%s/:\(\w\+\)/'\1'/gec<cr>
 
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" MULTIPURPOSE TAB KEY
+" Indent if we're at the beginning of a line. Else, do completion.
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+function! InsertTabWrapper()
+    let col = col('.') - 1
+    if !col || getline('.')[col - 1] !~ '\k'
+        return "\<tab>"
+    else
+        return "\<c-p>"
+    endif
+endfunction
+inoremap <tab> <c-r>=InsertTabWrapper()<cr>
+inoremap <s-tab> <c-n>
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" PROMOTE VARIABLE TO RSPEC LET
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+function! PromoteToLet()
+  :normal! dd
+  " :exec '?^\s*it\>'
+  :normal! P
+  :.s/\(\w\+\) = \(.*\)$/let(:\1) { \2 }/
+  :normal ==
+endfunction
+:command! PromoteToLet :call PromoteToLet()
+:map <leader>p :PromoteToLet<cr>
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" PLUGIN CONFIGURATION
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" % to bounce from do to end etc.
+runtime! macros/matchit.vim
+
+" Enable syntastic syntax checking
+let g:syntastic_enable_signs=1
+let g:syntastic_quiet_warnings=1
+
+" Command-T config
+let g:CommandTMaxHeight=20
+
+
+" Command-T tweaks for terminal vim
+set ttimeoutlen=50
+
+if &term =~ "xterm-color"
+  let g:CommandTCancelMap     = ['<ESC>', '<C-c>']
+  let g:CommandTSelectNextMap = ['<C-n>', '<C-j>', '<ESC>OB']
+  let g:CommandTSelectPrevMap = ['<C-p>', '<C-k>', '<ESC>OA']
+endif
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" MAPS TO JUMP TO SPECIFIC COMMAND-T TARGETS AND FILES
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 function! ShowRoutes()
   " Requires 'scratch' plugin
   :topleft 100 :split __Routes__
@@ -148,25 +336,6 @@ function! ShowRoutes()
 endfunction
 map <leader>gR :call ShowRoutes()<cr>
 
-
-" ============== Command-T ==================================
-let g:CommandTMaxHeight=20
-
-" set term=screen-256color
-" set guifont=Bitstream\ Vera\ Sans\ Mono\ for\ Powerline:h14
-" let g:Powerline_symbols = 'fancy'
-
-
-" Command-T tweaks for terminal vim
-set ttimeoutlen=50
-
-" if &term =~ "screen-256color"
-"   let g:CommandTCancelMap     = ['<ESC>', '<C-c>']
-"   let g:CommandTSelectNextMap = ['<C-n>', '<C-j>', '<ESC>OB']
-"   let g:CommandTSelectPrevMap = ['<C-p>', '<C-k>', '<ESC>OA']
-" endif
-
-" Custom CommandT mappings
 map <leader>f :CommandTFlush<cr>\|:CommandT<cr>
 map <leader>gf :CommandTFlush<cr>\|:CommandT %%<cr>
 map <leader>ga :CommandTFlush<cr>\|:CommandT app<cr>
@@ -178,73 +347,15 @@ map <leader>gm :CommandTFlush<cr>\|:CommandT app/models<cr>
 map <leader>gh :CommandTFlush<cr>\|:CommandT app/helpers<cr>
 map <leader>gl :CommandTFlush<cr>\|:CommandT lib<cr>
 map <leader>go :CommandTFlush<cr>\|:CommandT config<cr>
+map <leader>gt :CommandTFlush<cr>\|:CommandTTag<cr>
 
 " CommandTBuffer mapping
 nmap <Leader>. :CommandTFlush<cr>\|:CommandTBuffer<CR>
 
-" =============== CTAGS =====================================
-" CTags
-map <Leader>rt :!ctags --extra=+f -R --exclude=.git --exclude=log * ~/.rvm/gems/ruby-head/*<CR><CR>
-
-" =============== File Types ================================
-" Thorfile, Rakefile, Vagrantfile and Gemfile are Ruby
-au BufRead,BufNewFile {Gemfile,Rakefile,Vagrantfile,Thorfile,config.ru}    set ft=ruby
-
-" add json syntax highlighting
-au BufNewFile,BufRead *.json set ft=javascript
-
-"adding mapping for rabl files
-au BufRead,BufNewFile *.rabl setf ruby
-
-"adding mapping for markdown files
-au BufRead,BufNewFile *.md set ft=markdown
-
-"adding mapping for jade.erb files
-autocmd BufNewFile,BufReadPost *.jade.erb set filetype=jade
-
-au BufRead,BufNewFile /usr/local/etc/nginx/sites-available/* set ft=nginx
-
-" load the plugin and indent settings for the detected filetype
-filetype plugin indent on
-
-" allow backspacing over everything in insert mode
-set backspace=indent,eol,start
-
-" Directories for swp files
-set backupdir=~/.backup
-set directory=~/.backup
-
-" % to bounce from do to end etc.
-runtime! macros/matchit.vim
-
-" clipboard osx support for terminal mode vim
-set clipboard=unnamed
-
-" Make tab completion for files/buffers act like bash
-set wildmenu
-
-" Keep more context when scrolling off the end of a buffer
-set scrolloff=3
-
-" Make the current window big, but leave others context
-set winwidth=84
-" We have to have a winheight bigger than we want to set winminheight. But if
-" we set winheight to be huge before winminheight, the winminheight set will
-" fail.
-set winheight=5
-set winminheight=5
-set winheight=999
-
-nnoremap <c-j> <c-w>j
-nnoremap <c-k> <c-w>k
-nnoremap <c-h> <c-w>h
-nnoremap <c-l> <c-w>l
-
-" Custom functions
-
-" Running tests from Gary Bernhardt & Francesc Esplugas & Jordi Romero
-
-
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" RUNNING TESTS (Gary Bernhardt & Francesc Esplugas & Jordi Romero & myself)
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Send command to tmux pane
 function! s:send_test(executable)
   let s:executable = a:executable
   if s:executable == ''
@@ -258,31 +369,33 @@ function! s:send_test(executable)
   :redraw!
 endfunction
 
-function! RunTests(args)
-  :write
-  :silent !echo;echo;echo;echo;echo
-  if filereadable('script/test')
-    let spec =  'script/test '
-  elseif filereadable('Gemfile')
-    let spec = 'bundle exec rspec '
-  else
-    let spec = 'rspec '
-  end
-  " Without Send_to_Tmux
-  " let cmd = ':! time ' . spec . a:args
-  " execute cmd
+function! RunTests(filename)
+    " Write the file and run tests for the given filename
+    :w
+    :silent !echo;echo;echo;echo;echo;echo;echo;echo;echo;echo
+    :silent !echo;echo;echo;echo;echo;echo;echo;echo;echo;echo
+    :silent !echo;echo;echo;echo;echo;echo;echo;echo;echo;echo
+    :silent !echo;echo;echo;echo;echo;echo;echo;echo;echo;echo
+    :silent !echo;echo;echo;echo;echo;echo;echo;echo;echo;echo
+    :silent !echo;echo;echo;echo;echo;echo;echo;echo;echo;echo
+    if match(a:filename, '\.feature$') != -1
+        let cmd = ":!script/features " . a:filename
+    else
+        if filereadable("script/test")
+            let cmd = ":!script/test " . a:filename
+        elseif filereadable("Gemfile")
+            let cmd = ":!bundle exec rspec --color " . a:filename
+        else
+            let cmd = ":!rspec --color " . a:filename
+        end
+    end
 
-  " With Send_to_Tmux
-  let cmd = 'time ' . spec . a:args
-  return s:send_test(cmd)
+    if exists('Send_to_Tmux')
+      return s:send_test(cmd)
+    else
+      exec cmd
+    endif
 endfunction
-
-" function! RunTests(filename)
-"     " Write the file and run tests for the given filename
-"     :w
-"     :silent !echo;echo;echo;echo;echo
-"     exec ":!bundle exec rspec " . a:filename
-" endfunction
 
 function! SetTestFile()
     " Set the spec file that tests will be run for.
@@ -297,8 +410,8 @@ function! RunTestFile(...)
     endif
 
     " Run the tests for the previously-marked file.
-    let in_spec_file = match(expand("%"), '_spec.rb$') != -1
-    if in_spec_file
+    let in_test_file = match(expand("%"), '\(.feature\|_spec.rb\)$') != -1
+    if in_test_file
         call SetTestFile()
     elseif !exists("t:grb_test_file")
         return
@@ -308,7 +421,7 @@ endfunction
 
 function! RunNearestTest()
     let spec_line_number = line('.')
-    call RunTestFile(":" . spec_line_number)
+    call RunTestFile(":" . spec_line_number . " -b")
 endfunction
 
 " Run this file
@@ -318,7 +431,9 @@ map <leader>t :call RunNearestTest()<cr>
 " Run all test files
 map <leader>a :call RunTests('spec')<cr>
 
-" Toggle Scratch pad
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Scratch pad
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 function! ToggleScratch()
   if expand('%') == g:ScratchBufferName
       quit
@@ -328,67 +443,42 @@ function! ToggleScratch()
 endfunction
 
 map <leader>s :call ToggleScratch()<CR>
-map <leader>jt <Esc>:%!python -m json.tool<CR>
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" OpenChangedFiles COMMAND
+" Open a split for each dirty file in git
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+function! OpenChangedFiles()
+  only " Close all windows, unless they're modified
+  let status = system('git status -s | grep "^ \?\(M\|A\)" | cut -d " " -f 3')
+  let filenames = split(status, "\n")
+  exec "edit " . filenames[0]
+  for filename in filenames[1:]
+    exec "sp " . filename
+  endfor
+endfunction
+command! OpenChangedFiles :call OpenChangedFiles()
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Miscellaneous functions
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 " sum column of numbers in yanked register, save
 " result to " register
 function! Sum()
-python << EOF
-import vim
+  python << EOF
+  import vim
 
-# find total from input
-items = vim.eval("@0").split("\n")
-floatsList = map(float, filter(lambda n: n != '', items))
-total = sum(floatsList)
+  # find total from input
+  items = vim.eval("@0").split("\n")
+  floatsList = map(float, filter(lambda n: n != '', items))
+  total = sum(floatsList)
 
-# set register and echo result
-vim.command("call setreg('\"', '%s\n')" % total)
-vim.command("echo '%s saved to clipboard'" % total)
-EOF
+  # set register and echo result
+  vim.command("call setreg('\"', '%s\n')" % total)
+  vim.command("echo '%s saved to clipboard'" % total)
+  EOF
 endfunction
-
-function! ExtractVariable()
-    let name = input("Variable name: ")
-    if name == ''
-        return
-    endif
-    " Enter visual mode (not sure why this is needed since we're already in
-    " visual mode anyway)
-    normal! gv
-
-    " Replace selected text with the variable name
-    exec "normal c" . name
-    " Define the variable on the line above
-    exec "normal! O" . name . " = "
-    " Paste the original selected text to be the variable value
-    normal! $p
-endfunction
-
-function! InlineVariable()
-    " Copy the variable under the cursor into the 'a' register
-    :let l:tmp_a = @a
-    :normal "ayiw
-    " Delete variable and equals sign
-    :normal 2daW
-    " Delete the expression into the 'b' register
-    :let l:tmp_b = @b
-    :normal "bd$
-    " Delete the remnants of the line
-    :normal dd
-    " Go to the end of the previous line so we can start our search for the
-    " usage of the variable to replace. Doing '0' instead of 'k$' doesn't
-    " work; I'm not sure why.
-    normal k$
-    " Find the next occurence of the variable
-    exec '/\<' . @a . '\>'
-    " Replace that occurence with the text we yanked
-    exec ':.s/\<' . @a . '\>/' . @b
-    :let @a = l:tmp_a
-    :let @b = l:tmp_b
-endfunction
-
-vnoremap <leader>rv :call ExtractVariable()<cr>
-nnoremap <leader>ri :call InlineVariable()<cr>
 
 " word swapping functions
 "
@@ -407,13 +497,15 @@ nnoremap <leader>ri :call InlineVariable()<cr>
 " To use gc to swap the current character with the next, without changing the cursor position:
 :nnoremap <silent> gc xph
 
-set shell=/bin/bash
-
-" abbreviations
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Abbreviations
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 abbr W w
 abbr Wq wq
 
-"persitant undo
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Persistant undo
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 set undodir=~/.vim/undodir
 set undofile
 set undolevels=1000 "maximum number of changes that can be undone
