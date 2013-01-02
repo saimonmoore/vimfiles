@@ -75,14 +75,11 @@ Bundle 'tsaleh/vim-matchit'
 " Makes period (repeat) work with vim-surround
 Bundle 'tpope/vim-repeat'
 
-" Restore previous session
-Bundle 'fesplugas/vim-session'
-
 " Improved javascript identation
 Bundle 'pangloss/vim-javascript'
 
 " Kickass javascript auto correction
-Bundle 'manalang/jshint.vim.git'
+Bundle 'syranez/jshint.vim.git'
 
 " Jade syntax highlighting and identation
 Bundle 'digitaltoad/vim-jade.git'
