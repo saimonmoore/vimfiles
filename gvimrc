@@ -1,14 +1,11 @@
 " Don't beep
 set visualbell
 
-" Default gui color scheme
-" color solarized
+set background=dark
+colorscheme solarized
 
 set t_Co=256
 set vb t_vb=
-
-set guifont=Bitstream\ Vera\ Sans\ Mono\ for\ Powerline:h14
-let g:Powerline_symbols = 'fancy'
 
 if has("gui_macvim")
 " In MacVim, you can have multiple tabs open. This mapping makes Ctrl-Tab

@@ -22,6 +22,8 @@ call vundle#rc()
 Bundle 'gmarik/vundle'
 
 " My Bundles here:
+" vim.colors-solarized
+Bundle "altercation/vim-colors-solarized"
 
 " original repos on github
 " Fast fuzzy lookup for files in project
