@@ -90,6 +90,9 @@ Bundle 'digitaltoad/vim-jade.git'
 " Syntax highlighting for markdown
 Bundle 'tpope/vim-markdown'
 
+" Markdown preview via browser for osx
+Bundle 'nelstrom/vim-markdown-preview'
+
 " HAML syntax highlighting and identation
 Bundle 'tpope/vim-haml'
 
@@ -99,14 +102,29 @@ Bundle "sjl/vitality.vim"
 " vim-scripts repos
 Bundle 'nginx.vim'
 
+" cucumber support
+Bundle 'tpope/vim-cucumber'
+
+" table alginment
+Bundle 'godlygeek/tabular'
+
 if exists('$TMUX')
-  Bundle 'jgdavey/tslime.vim'
+  " Bundle 'jgdavey/tslime.vim'
+  Bundle 'jpalardy/vim-slime'
+  let g:slime_target = "tmux"
 endif
 
 if exists("s:bootstrap") && s:bootstrap
   unlet s:bootstrap
   BundleInstall
 endif
+
+Bundle "dahu/Vimazing"
+
+Bundle "VimClojure"
+
+" puppet syntax highlighting
+Bundle "rodjek/vim-puppet"
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " BASIC EDITING CONFIGURATION
@@ -136,7 +154,7 @@ set winwidth=79
 
 set shell=bash
 
-set term=xterm-color
+set term=xterm-256color
 
 " Prevent Vim from clobbering the scrollback buffer. See
 " http://www.shallowsky.com/linux/noaltscreen.html
@@ -247,7 +265,8 @@ augroup END
 " COLOR
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Default theme for now
-set background=dark
+" set background=dark
+set t_Co=256
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " STATUS LINE
@@ -295,6 +314,9 @@ map <Leader>rt :!ctags --extra=+f -R --exclude=.git --exclude=log * ~/.rvm/gems/
 " Format json
 map <leader>jt <Esc>:%!python -m json.tool<CR>
 
+" map ctl-m to send buffer to slime
+nmap <C-m> ggVG<C-c><C-c>
+
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " OPEN FILES IN DIRECTORY OF CURRENT FILE
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -316,12 +338,30 @@ function! RenameFile()
 endfunction
 map <leader>n :call RenameFile()<cr>
 
-" =============== Ruby & Rails  ==============================
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Ruby & Rails
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
 " Rails routes and Gemfile
 imap <leader>gr :topleft :split config/routes.rb<cr>
+
+" Show Gemfile in it's own window
 map <leader>gg :topleft 100 :split Gemfile<cr>
 
+" replace symbols with strings
 map <leader>rs :%s/:\(\w\+\)/'\1'/gec<cr>
+
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Clojure
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+let vimclojure#HighlightBuiltins = 1 " Highlight Clojure's builtins
+let vimclojure#ParenRainbow = 1      " Rainbow parentheses'!
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" CUSTOM MACROS
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+map <leader>l xviwS"
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " MULTIPURPOSE TAB KEY
@@ -368,7 +408,7 @@ let g:CommandTMaxHeight=20
 " Command-T tweaks for terminal vim
 set ttimeoutlen=50
 
-if &term =~ "xterm-color"
+if &term =~ "xterm-256color"
   let g:CommandTCancelMap     = ['<ESC>', '<C-c>']
   let g:CommandTSelectNextMap = ['<C-n>', '<C-j>', '<ESC>OB']
   let g:CommandTSelectPrevMap = ['<C-p>', '<C-k>', '<ESC>OA']
