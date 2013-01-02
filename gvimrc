@@ -8,6 +8,8 @@ set t_Co=256
 set vb t_vb=
 
 if has("gui_macvim")
+
+set guifont=Menlo\ Regular\:h15
 " In MacVim, you can have multiple tabs open. This mapping makes Ctrl-Tab
 " switch between them, like browser tabs. Ctrl-Shift-Tab goes the other way.
 noremap <D-S-Right> :tabnext<CR>
