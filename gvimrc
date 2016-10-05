@@ -14,6 +14,7 @@ set guifont=Menlo\ Regular\:h15
 " switch between them, like browser tabs. Ctrl-Shift-Tab goes the other way.
 noremap <D-S-Right> :tabnext<CR>
 noremap <D-S-Left> :tabprev<CR>
+endif
 
 " Switch to specific tab numbers with Command-number
 noremap <D-1> :tabn 1<CR>
@@ -27,5 +28,4 @@ noremap <D-8> :tabn 8<CR>
 noremap <D-9> :tabn 9<CR>
 " Command-0 goes to the last tab
 noremap <D-0> :tablast<CR>
-endif
 

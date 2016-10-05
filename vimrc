@@ -14,12 +14,15 @@ if !isdirectory(expand('~/.vim/bundle/vundle'))
   let s:bootstrap=1
 endif
 
+" Vundle Configuration
+
+filetype off
 set rtp+=~/.vim/bundle/vundle/
-call vundle#rc()
+call vundle#begin()
 
 " let Vundle manage Vundle
 " required! 
-Bundle 'gmarik/vundle'
+Bundle 'VundleVim/vundle'
 
 " My Bundles here:
 
@@ -79,7 +82,7 @@ Bundle 'kana/vim-textobj-user.git'
 Bundle 'nelstrom/vim-textobj-rubyblock.git'
 
 " % Matches corresponding braces/brackets etc
-Bundle 'matchit'
+Bundle 'tmhedberg/matchit'
 
 " Makes period (repeat) work with vim-surround
 Bundle 'tpope/vim-repeat'
@@ -123,9 +126,6 @@ Bundle 'terryma/vim-multiple-cursors'
 " jshint
 Bundle 'walm/jshint.vim'
 
-" CoVIM
-" Bundle 'FredKSchott/CoVim'
-
 " Search Dash from VIM
 Bundle 'rizzatti/funcoo.vim'
 Bundle 'rizzatti/dash.vim'
@@ -140,58 +140,8 @@ let g:jsx_ext_required = 0
 " elixir
 Bundle 'elixir-lang/vim-elixir'
 
-" YouCompleteMe
-Bundle 'Valloric/YouCompleteMe'
-
 " Alchemist (Elixir integration)
 Bundle 'slashmili/alchemist.vim'
-
-" Conque shell
-Bundle 'vim-scripts/Conque-Shell'
-let g:ConqueTerm_CloseOnEnd = 1
-
-" " Enable at start time"
-" let g:neocomplcache_enable_at_startup = 1
-" "
-" " Use smartcase.
-" let g:neocomplcache_enable_smart_case = 1
-
-" " Use camel case completion.
-" let g:neocomplcache_enable_camel_case_completion = 1
-
-" " Use underscore completion.
-" let g:neocomplcache_enable_underbar_completion = 1
-
-" " Sets minimum char length of syntax keyword.
-" let g:neocomplcache_min_syntax_length = 3
-
-" inoremap <expr><C-g>     neocomplcache#undo_completion()
-" inoremap <expr><C-l>     neocomplcache#complete_common_string()
-
-" " Recommended key-mappings.
-" " <CR>: close popup and save indent.
-" inoremap <expr><CR>  neocomplcache#smart_close_popup() . "\<CR>"
-" " <TAB>: completion.
-" inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
-" " <C-h>, <BS>: close popup and delete backword char.
-" inoremap <expr><C-h> neocomplcache#smart_close_popup()."\<C-h>"
-" inoremap <expr><BS> neocomplcache#smart_close_popup()."\<C-h>"
-" inoremap <expr><C-y>  neocomplcache#close_popup()
-" inoremap <expr><C-e>  neocomplcache#cancel_popup()
-
-" " Enable omni completion. Not required if they are already set elsewhere in .vimrc
-" autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
-" autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
-" autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
-" autocmd FileType ruby setlocal omnifunc=rubycomplete#Complete
-" autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
-" autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
-
-" " Enable heavy omni completion, which require computational power and may stall the vim. 
-" if !exists('g:neocomplcache_omni_patterns')
-"   let g:neocomplcache_omni_patterns = {}
-" endif
-" let g:neocomplcache_omni_patterns.ruby = '[^. *\t]\.\w*\|\h\w*::'
 
 if exists('$TMUX')
   " Bundle 'jgdavey/tslime.vim'
@@ -213,6 +163,10 @@ Bundle "rodjek/vim-puppet"
 
 " Golang development
 Bundle "fatih/vim-go"
+
+call vundle#end()
+
+filetype plugin indent on
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " BASIC EDITING CONFIGURATION
@@ -497,14 +451,14 @@ endfunction
 runtime! macros/matchit.vim
 
 " Enable syntastic syntax checking
-let g:syntastic_enable_signs=1
-let g:syntastic_quiet_messages = {'level': 'warnings'}
-let g:syntastic_html_tidy_exec = 'tidy5'
-let g:syntastic_always_populate_loc_list = 1
-let g:syntastic_auto_loc_list = 1
-let g:syntastic_check_on_open = 1
-let g:syntastic_check_on_wq = 1
-let g:syntastic_javascript_checkers = ['eslint']
+" let g:syntastic_enable_signs=1
+" let g:syntastic_quiet_messages = {'level': 'warnings'}
+" let g:syntastic_html_tidy_exec = 'tidy5'
+" let g:syntastic_always_populate_loc_list = 1
+" let g:syntastic_auto_loc_list = 1
+" let g:syntastic_check_on_open = 1
+" let g:syntastic_check_on_wq = 1
+" let g:syntastic_javascript_checkers = ['eslint']
 
 " Command-T config
 let g:CommandTMaxHeight=20
