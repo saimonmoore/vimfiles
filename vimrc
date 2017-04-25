@@ -22,19 +22,18 @@ call vundle#begin()
 
 " let Vundle manage Vundle
 " required! 
-Bundle 'VundleVim/vundle'
+Bundle 'gmarik/vundle'
 
 " My Bundles here:
+
+" Colorscheme
+Bundle 'christophermca/meta5'
 
 " autocreate dirs when saving files
 Bundle "dockyard/vim-easydir"
 
-" vim.colors-solarized
-Bundle "altercation/vim-colors-solarized"
-
-" original repos on github
 " Fast fuzzy lookup for files in project
-Bundle 'wincent/Command-T'
+Bundle 'junegunn/fzf.vim'
 
 " Git wrapper: Mostly just use for :Gblame
 Bundle 'tpope/vim-fugitive'
@@ -64,7 +63,10 @@ Bundle 'msanders/snipmate.vim'
 Bundle 'tsaleh/vim-align'
 
 " Syntax highlighting
-Bundle 'scrooloose/syntastic'
+" Bundle 'scrooloose/syntastic'
+
+" Syntastic replacement
+Bundle 'neomake/neomake'
 
 " Autocloses brackets/parenthese
 Bundle 'Townk/vim-autoclose.git'
@@ -143,10 +145,14 @@ Bundle 'elixir-lang/vim-elixir'
 " Alchemist (Elixir integration)
 Bundle 'slashmili/alchemist.vim'
 
-if exists('$TMUX')
-  " Bundle 'jgdavey/tslime.vim'
-  Bundle 'jpalardy/vim-slime'
-  let g:slime_target = "tmux"
+" Text Manipulation
+Bundle 't9md/vim-textmanip'
+
+" Solidity
+Bundle 'tomlion/vim-solidity'
+
+if exists('g:move_key_modifier') && g:move_key_modifier
+  let g:move_key_modifier = 'C'
 endif
 
 if exists("s:bootstrap") && s:bootstrap
@@ -163,6 +169,16 @@ Bundle "rodjek/vim-puppet"
 
 " Golang development
 Bundle "fatih/vim-go"
+
+Bundle "ludovicchabant/vim-gutentags"
+
+Bundle "tpope/vim-dispatch"
+
+Bundle "janko-m/vim-test"
+let test#strategy = "dispatch"
+
+Bundle "mhinz/vim-grepper"
+let g:grepper = { 'tools': ['ag', 'git'] }
 
 call vundle#end()
 
@@ -184,7 +200,7 @@ set expandtab
 set tabstop=2
 set shiftwidth=2
 set softtabstop=2
-set list listchars=tab:\ \ ,trail:·
+"set list listchars=tab:\ \ ,trail:
 
 " highlight current line
 " set cursorline
@@ -285,7 +301,8 @@ augroup vimrcEx
 
   autocmd! BufRead,BufNewFile *.sass setfiletype sass 
 
-  autocmd BufRead,BufNewFile {*.md,*.mkd,*markdown} set ft=markdown
+  " Make textwidth 80 chars long on markdown files
+  autocmd BufRead,BufNewFile {*.md,*.mkd,*markdown} set ft=markdown textwidth=80
   autocmd BufRead *.mkd  set ai formatoptions=tcroqn2 comments=n:&gt;
   autocmd BufRead *.markdown  set ai formatoptions=tcroqn2 comments=n:&gt;
 
@@ -315,7 +332,7 @@ augroup END
 " COLOR
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Default theme for now
-" set background=dark
+set background=dark
 set t_Co=256
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -323,7 +340,7 @@ set t_Co=256
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 set statusline=%<%f\ (%{&ft})\ %-4(%m%)%=%-19(%3l,%02c%03V%)
 set statusline+=%#warningmsg#
-set statusline+=%{SyntasticStatuslineFlag()}
+" set statusline+=%{SyntasticStatuslineFlag()}
 set statusline+=%*
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -369,6 +386,27 @@ map <leader>jt <Esc>:%!python -m json.tool<CR>
 
 " map ctl-m to send buffer to slime
 nmap <C-m> ggVG<C-c><C-c>
+
+" Text Manipulation plugin
+"
+nmap <Space>d <Plug>(textmanip-duplicate-down)
+nmap <Space>D <Plug>(textmanip-duplicate-up)
+
+xmap <C-j> <Plug>(textmanip-move-down)
+xmap <C-k> <Plug>(textmanip-move-up)
+xmap <C-h> <Plug>(textmanip-move-left)
+xmap <C-l> <Plug>(textmanip-move-right)
+
+" toggle insert/replace with <F10>
+nmap <F10> <Plug>(textmanip-toggle-mode)
+xmap <F10> <Plug>(textmanip-toggle-mode)
+
+" fzf
+let g:fzf_command_prefix = 'FZF'
+nnoremap <leader>ff :FZFFiles<cr>
+nnoremap <leader>fb :FZFBuffers<cr>
+nnoremap <leader>ft :FZFTags<cr>
+nnoremap <leader>fh :FZFHistory<cr>
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " OPEN FILES IN DIRECTORY OF CURRENT FILE
@@ -450,28 +488,14 @@ endfunction
 " % to bounce from do to end etc.
 runtime! macros/matchit.vim
 
-" Enable syntastic syntax checking
-" let g:syntastic_enable_signs=1
-" let g:syntastic_quiet_messages = {'level': 'warnings'}
-" let g:syntastic_html_tidy_exec = 'tidy5'
-" let g:syntastic_always_populate_loc_list = 1
-" let g:syntastic_auto_loc_list = 1
-" let g:syntastic_check_on_open = 1
-" let g:syntastic_check_on_wq = 1
-" let g:syntastic_javascript_checkers = ['eslint']
-
-" Command-T config
-let g:CommandTMaxHeight=20
-
-
-" Command-T tweaks for terminal vim
-set ttimeoutlen=50
-
-if &term =~ "xterm-256color"
-  let g:CommandTCancelMap     = ['<ESC>', '<C-c>']
-  let g:CommandTSelectNextMap = ['<C-n>', '<C-j>', '<ESC>OB']
-  let g:CommandTSelectPrevMap = ['<C-p>', '<C-k>', '<ESC>OA']
-endif
+" Neomake
+autocmd! BufReadPost,BufWritePost * Neomake
+let g:neomake_open_list = 0
+let g:neomake_ruby_rubocop_maker = { 'exe': 'bundle', 'args': ['exec', 'rubocop', '--format', 'emacs'] }
+let g:neomake_error_sign = {'text': '✘', 'texthl': 'NeomakeErrorSign'}
+let g:neomake_warning_sign = {'text': '✋', 'texthl': 'NeomakeWarningSign'}
+let g:neomake_info_sign = {'text': '❕', 'texthl': 'NeomakeMessageSign'}
+let g:neomake_message_sign = {'text': '✨', 'texthl': 'NeomakeInfoSign'}
 
 " Mappings for Dash
 :nmap <silent> <leader>d <Plug>DashSearch
