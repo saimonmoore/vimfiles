@@ -1,0 +1,2 @@
+for f in $(find ~/vimfiles -type f -iname '.*'); do f_=$(basename $f); ln -nfs ~/vimfiles/$f_ ~/$f_; done
+
